@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="province_name">
+        <item>Aceh</item>
+        <item>Bali</item>
+        <item>Kep Bangka Belitung</item>
+        <item>Banten</item>
+        <item>Bengkulu</item>
+        <item>Jawa Tengah</item>
+        <item>Kalimantan Tengah</item>
+        <item>Sulawesi Tengah</item>
+        <item>Jawa Timur</item>
+        <item>Kalimantan Timur</item>
+        <item>Nusa Tenggara Timur</item>
+        <item>Gorontalo</item>
+        <item>DKI Jakarta</item>
+        <item>Jambi</item>
+        <item>Lampung</item>
+        <item>Maluku</item>
+        <item>Kalimantan Utara</item>
+        <item>Maluku Utara</item>
+        <item>Sulawesi Utara</item>
+        <item>Sumatera Utara</item>
+        <item>Papua</item>
+        <item>Riau</item>
+        <item>Kepulauan Riau</item>
+        <item>Sulawesi Tenggara</item>
+        <item>Kalimantan Selatan</item>
+        <item>Sulawesi Selatan</item>
+        <item>Sumatera Selatan</item>
+        <item>DI Yogyakarta</item>
+        <item>Jawa Barat</item>
+        <item>Kalimantan Barat</item>
+        <item>Nusa Tenggara Barat</item>
+        <item>Papua Barat</item>
+        <item>Sulawesi Barat</item>
+        <item>Sumatera Barat</item>
+    </string-array>
+    <string-array name="province_code">
+        <item>ID-AC</item>
+        <item>ID-BA</item>
+        <item>ID-BB</item>
+        <item>ID-BT</item>
+        <item>ID-BE</item>
+        <item>ID-JT</item>
+        <item>ID-KT</item>
+        <item>ID-ST</item>
+        <item>ID-JI</item>
+        <item>ID-KI</item>
+        <item>ID-NT</item>
+        <item>ID-GO</item>
+        <item>ID-JK</item>
+        <item>ID-JA</item>
+        <item>ID-LA</item>
+        <item>ID-MA</item>
+        <item>ID-KU</item>
+        <item>ID-MU</item>
+        <item>ID-SA</item>
+        <item>ID-SU</item>
+        <item>ID-PA</item>
+        <item>ID-RI</item>
+        <item>ID-KR</item>
+        <item>ID-SG</item>
+        <item>ID-KS</item>
+        <item>ID-SN</item>
+        <item>ID-SS</item>
+        <item>ID-YO</item>
+        <item>ID-JB</item>
+        <item>ID-KB</item>
+        <item>ID-NB</item>
+        <item>ID-PB</item>
+        <item>ID-SR</item>
+        <item>ID-SB</item>
+    </string-array>
+</resources>

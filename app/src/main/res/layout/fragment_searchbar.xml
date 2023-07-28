@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.searchbar.SearchbarFragment">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="74dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:paddingStart="16dp"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_clear_filter"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue_500"
+                app:chipStrokeColor="@color/border_color"
+                android:textColor="@color/white"
+                android:text="@string/x"
+                tools:targetApi="lollipop" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                app:chipBackgroundColor="@color/bg_chip_flood_state"
+                app:chipStrokeColor="@color/border_color"
+                app:chipIcon="@drawable/ic_calendar_month_24"
+                android:textColor="@color/bg_chip_text_state"
+                app:chipIconTint="@color/bg_chip_text_state"
+                android:text="@string/filter"
+                android:focusable="true" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                app:singleSelection="true"
+                app:singleLine="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_disaster_flood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/bg_chip_flood_state"
+                    app:chipStrokeColor="@color/border_color"
+                    app:chipIcon="@drawable/ic_round_flood_24"
+                    android:textColor="@color/bg_chip_text_state"
+                    app:chipIconTint="@color/bg_chip_text_state"
+                    android:checkable="true"
+                    android:text="@string/flood" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_disaster_earthquake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/bg_chip_earthquake_state"
+                    app:chipStrokeColor="@color/border_color"
+                    app:chipIcon="@drawable/ic_round_earthquake_24"
+                    android:textColor="@color/bg_chip_text_state"
+                    app:chipIconTint="@color/bg_chip_text_state"
+                    android:checkable="true"
+                    android:text="@string/earthquake" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_disaster_fire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/bg_chip_fire_state"
+                    android:text="@string/fire"
+                    app:chipIcon="@drawable/ic_round_fire_24"
+                    android:textColor="@color/bg_chip_text_state"
+                    app:chipIconTint="@color/bg_chip_text_state"
+                    app:chipStrokeColor="@color/border_color"
+                    android:checkable="true"
+                    tools:ignore="TextContrastCheck" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_disaster_haze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/bg_chip_haze_state"
+                    app:chipStrokeColor="@color/border_color"
+                    app:chipIcon="@drawable/ic_round_haze_24"
+                    android:textColor="@color/bg_chip_text_state"
+                    app:chipIconTint="@color/bg_chip_text_state"
+                    android:checkable="true"
+                    android:text="@string/haze" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_disaster_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/bg_chip_wind_state"
+                    app:chipStrokeColor="@color/border_color"
+                    app:chipIcon="@drawable/ic_round_wind_24"
+                    android:textColor="@color/bg_chip_text_state"
+                    app:chipIconTint="@color/bg_chip_text_state"
+                    android:checkable="true"
+                    android:text="@string/wind" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_disaster_volcano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/bg_chip_volcano_state"
+                    app:chipStrokeColor="@color/border_color"
+                    app:chipIcon="@drawable/ic_round_volcano_24"
+                    android:textColor="@color/bg_chip_text_state"
+                    app:chipIconTint="@color/bg_chip_text_state"
+                    android:checkable="true"
+                    android:text="@string/volcano" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/background_color"
+        android:hint="@string/search_province"
+        tools:targetApi="lollipop" />
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/Widget.Material3.SearchView"
+        android:hint="@string/all_province"
+        app:layout_anchor="@id/search_bar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.google.android.material.search.SearchView>
+
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
