@@ -1,23 +1,24 @@
 package com.bydhiva.dismaps.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.bydhiva.dismaps.R
 import com.bydhiva.dismaps.base.BaseApplication
-import com.bydhiva.dismaps.base.MainContainer
 import com.bydhiva.dismaps.base.viewModelBuilder
 import com.bydhiva.dismaps.databinding.ActivityMainBinding
 import com.bydhiva.dismaps.ui.error.ErrorPlaceholderFragment
 import com.bydhiva.dismaps.ui.list.DisasterListFragment
+import com.bydhiva.dismaps.ui.main.MainViewModel.MainUIEvent
 import com.bydhiva.dismaps.ui.maps.MapsFragment
 import com.bydhiva.dismaps.ui.searchbar.SearchbarFragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.search.SearchView
-import com.bydhiva.dismaps.ui.main.MainViewModel.MainUIEvent
 import com.bydhiva.dismaps.utils.removeIfExist
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
+import com.google.android.material.search.SearchView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -62,6 +63,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBottomSheet() {
         setBottomSheetState(BottomSheetBehavior.STATE_HALF_EXPANDED)
+        setTranslationYBottomSheetHeader(0.4F)
+        BottomSheetBehavior.from(binding.bottomSheet).addBottomSheetCallback(
+            object : BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) = Unit
+                override fun onSlide(bottomSheet: View, slideOffset: Float) = setTranslationYBottomSheetHeader(slideOffset)
+            }
+        )
     }
 
     private fun initFragment() = supportFragmentManager.commit {
@@ -86,6 +94,17 @@ class MainActivity : AppCompatActivity() {
             state = newState
             isDraggable = !isLocked
         }
+    }
+
+    private fun setTranslationYBottomSheetHeader(slideOffset: Float) {
+        val height = resources.displayMetrics.heightPixels-120
+        val translationY = -(slideOffset*height)
+        val extraTranslationY: Float = if (slideOffset<0.4) {
+            200-(200*(slideOffset*2.5)).toFloat()
+        } else {
+            300-(300*((1-slideOffset)*1.66)).toFloat()
+        }
+        binding.cvBsHeader.translationY = translationY+ extraTranslationY
     }
 
     override fun onDestroy() {
