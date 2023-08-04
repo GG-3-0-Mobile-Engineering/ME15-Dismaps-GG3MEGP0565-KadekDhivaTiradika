@@ -10,6 +10,7 @@ import com.bydhiva.dismaps.R
 import com.bydhiva.dismaps.base.BaseApplication
 import com.bydhiva.dismaps.base.viewModelBuilder
 import com.bydhiva.dismaps.databinding.ActivityMainBinding
+import com.bydhiva.dismaps.ui.additional.AdditionalInfoFragment
 import com.bydhiva.dismaps.ui.error.ErrorPlaceholderFragment
 import com.bydhiva.dismaps.ui.list.DisasterListFragment
 import com.bydhiva.dismaps.ui.main.MainViewModel.MainUIEvent
@@ -67,7 +68,8 @@ class MainActivity : AppCompatActivity() {
         BottomSheetBehavior.from(binding.bottomSheet).addBottomSheetCallback(
             object : BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) = Unit
-                override fun onSlide(bottomSheet: View, slideOffset: Float) = setTranslationYBottomSheetHeader(slideOffset)
+                override fun onSlide(bottomSheet: View, slideOffset: Float) =
+                    setTranslationYBottomSheetHeader(slideOffset)
             }
         )
     }
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         replace<SearchbarFragment>(R.id.header_container)
         replace<MapsFragment>(R.id.main_container)
         replace<DisasterListFragment>(R.id.bottom_sheet_container)
+        replace<AdditionalInfoFragment>(R.id.bs_header_container)
         setReorderingAllowed(true)
     }
 
@@ -97,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTranslationYBottomSheetHeader(slideOffset: Float) {
-        val height = resources.displayMetrics.heightPixels-120
+        val height = resources.displayMetrics.heightPixels-100
         val translationY = -(slideOffset*height)
         val extraTranslationY: Float = if (slideOffset<0.4) {
             200-(200*(slideOffset*2.5)).toFloat()

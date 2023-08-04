@@ -33,4 +33,7 @@
     <string name="water_level_alert">Water Level Alert</string>
     <string name="set_filter">Set Filter</string>
     <string name="app_ver">Dismaps v1.0.0</string>
+    <string name="in_the_past_hour">in the past hour</string>
+    <string name="between_date">between %1$s</string>
+    <string name="disaster_message">There have been %1$d disasters %2$s. Stay safe!</string>
 </resources>

@@ -12,5 +12,5 @@ fun Date.toStringISO(): String {
 
 fun Pair<Date, Date>.toShortText(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-    return "${formatter.format(this.first)}-${formatter.format(this.second)}"
+    return "${formatter.format(this.first)} - ${formatter.format(this.second)}"
 }
