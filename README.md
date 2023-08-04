@@ -1,4 +1,4 @@
-# Circle Android App
+# DisMaps Android App
 
 ## Installation
 Clone this repository and import into **Android Studio**
