@@ -44,4 +44,9 @@ class DisasterDetailFragment : Fragment() {
         ivDisaster.loadImage(disaster.imageUrl, disaster.disasterType)
         ivIconDisaster.changeDrawable(disaster.disasterType.getDisasterIconId())
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

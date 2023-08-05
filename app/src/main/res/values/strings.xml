@@ -36,4 +36,5 @@
     <string name="in_the_past_hour">in the past hour</string>
     <string name="between_date">between %1$s</string>
     <string name="disaster_message">There have been %1$d disasters %2$s. Stay safe!</string>
+    <string name="back">back</string>
 </resources>

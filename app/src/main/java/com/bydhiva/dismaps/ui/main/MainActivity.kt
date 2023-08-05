@@ -12,6 +12,7 @@ import com.bydhiva.dismaps.base.viewModelBuilder
 import com.bydhiva.dismaps.databinding.ActivityMainBinding
 import com.bydhiva.dismaps.ui.additional.AdditionalInfoFragment
 import com.bydhiva.dismaps.ui.detail.DisasterDetailFragment
+import com.bydhiva.dismaps.ui.detail.HeaderDisasterDetailFragment
 import com.bydhiva.dismaps.ui.error.ErrorPlaceholderFragment
 import com.bydhiva.dismaps.ui.list.DisasterListFragment
 import com.bydhiva.dismaps.ui.main.MainViewModel.MainUIEvent
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 addDetailDisasterFragment()
             }
+            setBottomSheetState(BottomSheetBehavior.STATE_HALF_EXPANDED)
         }
     }
 
@@ -103,11 +105,15 @@ class MainActivity : AppCompatActivity() {
     private fun addDetailDisasterFragment() {
         supportFragmentManager.commit {
             add<DisasterDetailFragment>(R.id.bottom_sheet_container)
+            add<HeaderDisasterDetailFragment>(R.id.header_container)
             setReorderingAllowed(true)
         }
     }
 
-    private fun removeDetailDisasterFragment() = supportFragmentManager.removeIfExist<DisasterDetailFragment>()
+    private fun removeDetailDisasterFragment() {
+        supportFragmentManager.removeIfExist<DisasterDetailFragment>()
+        supportFragmentManager.removeIfExist<HeaderDisasterDetailFragment>()
+    }
 
     private fun setBottomSheetState(newState: Int, isLocked: Boolean = false) {
         BottomSheetBehavior.from(binding.bottomSheet).apply {
