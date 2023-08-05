@@ -16,7 +16,6 @@ import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.domain.model.Province
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.ui.setting.SettingDialogFragment
-import com.bydhiva.dismaps.utils.toShortText
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.Calendar
 import java.util.Date
@@ -130,7 +129,6 @@ class SearchbarFragment : Fragment() {
         chipFilter.isCheckable = true
         chipFilter.isChecked = starEndDate != null
         chipFilter.isCheckable = false
-        chipFilter.text = starEndDate?.toShortText() ?: resources.getString(R.string.filter)
     }
 
     private fun onActionSearch(text: String) = with(binding) {

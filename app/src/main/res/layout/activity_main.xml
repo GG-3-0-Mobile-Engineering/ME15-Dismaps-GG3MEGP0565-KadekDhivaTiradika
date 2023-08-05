@@ -16,8 +16,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_bs_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="28dp"
+        android:layout_gravity="bottom">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/bs_header_container"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/blue_500"/>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet"
+        android:elevation="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/Widget.Material3.BottomSheet"
@@ -25,6 +41,7 @@
         app:behavior_peekHeight="50dp"
         app:behavior_fitToContents="false"
         app:behavior_hideable="false"
+        app:behavior_halfExpandedRatio="0.435"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:targetApi="lollipop">
 

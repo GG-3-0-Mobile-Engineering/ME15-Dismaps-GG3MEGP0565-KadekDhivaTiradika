@@ -2,6 +2,7 @@ package com.bydhiva.dismaps.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,6 +18,23 @@ fun <T> LiveData<T>.debounce(duration: Long = 1000L, coroutineScope: CoroutineSc
         job = coroutineScope.launch {
             delay(duration)
             mld.value = source.value
+        }
+    }
+}
+
+class CombinedLiveData<T, K, S>(source1: LiveData<T>, source2: LiveData<K>, private val combine: (data1: T?, data2: K?) -> S) : MediatorLiveData<S>() {
+
+    private var data1: T? = null
+    private var data2: K? = null
+
+    init {
+        super.addSource(source1) {
+            data1 = it
+            value = combine(data1, data2)
+        }
+        super.addSource(source2) {
+            data2 = it
+            value = combine(data1, data2)
         }
     }
 }
