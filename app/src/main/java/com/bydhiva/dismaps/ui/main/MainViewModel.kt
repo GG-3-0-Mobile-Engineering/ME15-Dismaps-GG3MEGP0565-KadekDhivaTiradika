@@ -43,6 +43,9 @@ class MainViewModel(
     private val _mainUIEvent = MutableLiveData<MainUIEvent>()
     val mainUIEvent: LiveData<MainUIEvent> get() = _mainUIEvent
 
+    private val _selectedDisaster = MutableLiveData<Disaster?>()
+    val selectedDisaster get() = _selectedDisaster
+
     init {
         getReports()
     }
@@ -79,6 +82,8 @@ class MainViewModel(
     }
 
     fun setSearchViewState(state: TransitionState) = _searchViewState.postValue(state)
+
+    fun setSelectedDisaster(disaster: Disaster?) = _selectedDisaster.postValue(disaster)
 
     fun setSearchText(text: String) = viewModelScope.launch {
         _searchText.emit(text)

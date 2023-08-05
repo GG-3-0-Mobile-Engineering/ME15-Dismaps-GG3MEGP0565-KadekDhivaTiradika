@@ -11,6 +11,7 @@ import com.bydhiva.dismaps.base.BaseApplication
 import com.bydhiva.dismaps.base.viewModelBuilder
 import com.bydhiva.dismaps.databinding.ActivityMainBinding
 import com.bydhiva.dismaps.ui.additional.AdditionalInfoFragment
+import com.bydhiva.dismaps.ui.detail.DisasterDetailFragment
 import com.bydhiva.dismaps.ui.error.ErrorPlaceholderFragment
 import com.bydhiva.dismaps.ui.list.DisasterListFragment
 import com.bydhiva.dismaps.ui.main.MainViewModel.MainUIEvent
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     setBottomSheetState(BottomSheetBehavior.STATE_COLLAPSED, true)
                 }
                 is MainUIEvent.SuccessEvent -> {
-                    removePlaceHolderFragment()
+                    removeErrorFragment()
                     setBottomSheetState(BottomSheetBehavior.STATE_HALF_EXPANDED)
                 }
             }
@@ -58,6 +59,13 @@ class MainActivity : AppCompatActivity() {
                 SearchView.TransitionState.HIDDEN ->
                     if (eventState is MainUIEvent.SuccessEvent) setBottomSheetState(BottomSheetBehavior.STATE_HALF_EXPANDED)
                 else -> {}
+            }
+        }
+        viewModel.selectedDisaster.observe(this) {
+            if (it == null) {
+                removeDetailDisasterFragment()
+            } else {
+                addDetailDisasterFragment()
             }
         }
     }
@@ -90,7 +98,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun removePlaceHolderFragment() = supportFragmentManager.removeIfExist<ErrorPlaceholderFragment>()
+    private fun removeErrorFragment() = supportFragmentManager.removeIfExist<ErrorPlaceholderFragment>()
+
+    private fun addDetailDisasterFragment() {
+        supportFragmentManager.commit {
+            add<DisasterDetailFragment>(R.id.bottom_sheet_container)
+            setReorderingAllowed(true)
+        }
+    }
+
+    private fun removeDetailDisasterFragment() = supportFragmentManager.removeIfExist<DisasterDetailFragment>()
 
     private fun setBottomSheetState(newState: Int, isLocked: Boolean = false) {
         BottomSheetBehavior.from(binding.bottomSheet).apply {

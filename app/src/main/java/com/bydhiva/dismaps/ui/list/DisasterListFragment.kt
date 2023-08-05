@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.common.adapter.ListDisasterAdapter
 import com.bydhiva.dismaps.databinding.FragmentDisasterListBinding
+import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.ui.main.MainViewModel
 
 class DisasterListFragment : Fragment() {
@@ -38,6 +39,11 @@ class DisasterListFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
+        listDisasterAdapter.setOnItemClickCallback(object : ListDisasterAdapter.OnItemClickCallback {
+            override fun onItemClicked(disaster: Disaster) {
+                viewModel.setSelectedDisaster(disaster)
+            }
+        })
         with(binding) {
             rvDisaster.layoutManager = LinearLayoutManager(requireContext())
             rvDisaster.adapter = listDisasterAdapter

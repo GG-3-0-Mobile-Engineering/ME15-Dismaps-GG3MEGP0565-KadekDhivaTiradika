@@ -3,11 +3,12 @@ package com.bydhiva.dismaps.common
 import com.bydhiva.dismaps.data.network.response.GeometriesItem
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.domain.model.DisasterType
+import com.bydhiva.dismaps.utils.stringISOToDate
 import com.google.android.gms.maps.model.LatLng
 
 fun GeometriesItem.toDisaster(): Disaster = Disaster(
     pKey = this.properties?.pKey ?: "",
-    createdAt = this.properties?.createdAt ?: "",
+    createdAt = (this.properties?.createdAt ?: "").stringISOToDate(),
     source = this.properties?.source ?: "",
     status = this.properties?.status ?: "",
     disasterType = (this.properties?.disasterType ?: "").toEnum(),

@@ -1,10 +1,8 @@
 package com.bydhiva.dismaps.common.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,6 +15,7 @@ import com.bydhiva.dismaps.utils.getColorId
 import com.bydhiva.dismaps.utils.getDisasterIconId
 import com.bydhiva.dismaps.utils.getStringId
 import com.bydhiva.dismaps.utils.loadImage
+import com.bydhiva.dismaps.utils.toShortText
 
 class ListDisasterAdapter: ListAdapter<Disaster, ListDisasterAdapter.DisasterViewHolder>(DisasterComparator()) {
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -27,7 +26,7 @@ class ListDisasterAdapter: ListAdapter<Disaster, ListDisasterAdapter.DisasterVie
     }
 
     override fun onBindViewHolder(holder: DisasterViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onItemClickCallback)
     }
 
     override fun submitList(list: List<Disaster>?) {
@@ -43,7 +42,7 @@ class ListDisasterAdapter: ListAdapter<Disaster, ListDisasterAdapter.DisasterVie
             ItemDisasterBinding.bind(itemView)
         }
 
-        fun bind(disaster: Disaster) {
+        fun bind(disaster: Disaster, onItemClickCallback: OnItemClickCallback) {
             binding.apply {
                 tvTitle.text = disaster.title.ifBlank { itemView.context.getString(disaster.disasterType.getStringId()) }
                 tvDesc.text = disaster.text
@@ -51,6 +50,10 @@ class ListDisasterAdapter: ListAdapter<Disaster, ListDisasterAdapter.DisasterVie
                 tvDisasterType.setTextColor(ContextCompat.getColor(itemView.context, disaster.disasterType.getColorId()))
                 ivDisaster.loadImage(disaster.imageUrl, disaster.disasterType)
                 ivIconDisaster.changeDrawable(disaster.disasterType.getDisasterIconId())
+                tvDate.text = disaster.createdAt?.toShortText()
+            }
+            itemView.setOnClickListener {
+                onItemClickCallback.onItemClicked(disaster)
             }
         }
 

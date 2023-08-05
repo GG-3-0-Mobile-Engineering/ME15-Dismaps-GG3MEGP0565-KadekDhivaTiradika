@@ -1,10 +1,11 @@
 package com.bydhiva.dismaps.domain.model
 
 import com.google.android.gms.maps.model.LatLng
+import java.util.Date
 
 data class Disaster(
     val pKey: String,
-    val createdAt: String,
+    val createdAt: Date?,
     val source: String,
     val status: String,
     val disasterType: DisasterType,
