@@ -3,13 +3,13 @@ package com.bydhiva.dismaps.ui.detail
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bydhiva.dismaps.R
 import com.bydhiva.dismaps.base.activityViewModelBuilder
-import com.bydhiva.dismaps.databinding.FragmentDisasterDetailBinding
 import com.bydhiva.dismaps.databinding.FragmentHeaderDisasterDetailBinding
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.ui.main.MainViewModel
@@ -20,6 +20,14 @@ class HeaderDisasterDetailFragment : Fragment() {
     private var _binding: FragmentHeaderDisasterDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModelBuilder<MainViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.slide_top)
+        enterTransition = inflater.inflateTransition(R.transition.slide_top)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

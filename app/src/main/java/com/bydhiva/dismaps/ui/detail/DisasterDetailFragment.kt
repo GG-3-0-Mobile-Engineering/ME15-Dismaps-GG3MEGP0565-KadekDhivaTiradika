@@ -1,11 +1,13 @@
 package com.bydhiva.dismaps.ui.detail
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.bydhiva.dismaps.R
 import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.databinding.FragmentDisasterDetailBinding
 import com.bydhiva.dismaps.domain.model.Disaster
@@ -21,6 +23,14 @@ class DisasterDetailFragment : Fragment() {
     private var _binding: FragmentDisasterDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModelBuilder<MainViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
+        enterTransition = inflater.inflateTransition(R.transition.fade)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
