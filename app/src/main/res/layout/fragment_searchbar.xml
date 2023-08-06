@@ -12,6 +12,7 @@
         android:layout_marginTop="74dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@+id/search_bar">
 
         <LinearLayout
