@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bydhiva.dismaps.base.Status
-import com.bydhiva.dismaps.common.getExceptionMessage
+import com.bydhiva.dismaps.common.getExceptionMessageId
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.domain.model.ReportsFilter
@@ -74,7 +74,7 @@ class MainViewModel @Inject constructor(
                 is Status.Error -> {
                     _isListLoading.postValue(false)
                     result.error?.let {
-                        _mainUIEvent.postValue(MainUIEvent.ErrorEvent(it.getExceptionMessage()))
+                        _mainUIEvent.postValue(MainUIEvent.ErrorEvent(it.getExceptionMessageId()))
                     }
                 }
             }
@@ -104,7 +104,7 @@ class MainViewModel @Inject constructor(
     }
 
     sealed class MainUIEvent {
-        data class ErrorEvent(val message: String): MainUIEvent()
+        data class ErrorEvent(val messageStringId: Int): MainUIEvent()
         object EmptyEvent: MainUIEvent()
         object SuccessEvent: MainUIEvent()
     }

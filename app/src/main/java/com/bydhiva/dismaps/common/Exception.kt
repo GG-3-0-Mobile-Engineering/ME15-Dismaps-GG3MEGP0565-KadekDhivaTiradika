@@ -1,7 +1,6 @@
 package com.bydhiva.dismaps.common
 
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.LibraryModule
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -28,17 +27,17 @@ fun getExceptionByCode(code: Int) = when(code) {
     else -> UnexpectedNetworkException()
 }
 
-fun Throwable.getExceptionMessage() = when(this) {
-    is BadRequestNetworkException -> LibraryModule.application.getString(R.string.bad_request_message)
-    is ForbiddenNetworkException -> LibraryModule.application.getString(R.string.forbidden_message)
-    is NotFoundNetworkException -> LibraryModule.application.getString(R.string.not_found_message)
-    is ConflictNetworkException -> LibraryModule.application.getString(R.string.conflict_message)
-    is UnsupportedMediaNetworkException -> LibraryModule.application.getString(R.string.unsupported_media_type_message)
-    is TooManyRequestNetworkException -> LibraryModule.application.getString(R.string.too_many_request_message)
-    is NetworkServerErrorException -> LibraryModule.application.getString(R.string.internal_server_error_message)
-    is NetworkServiceUnavailableException -> LibraryModule.application.getString(R.string.service_unavailable_message)
-    is IOException -> LibraryModule.application.getString(R.string.internet_error_message)
-    is HttpException -> LibraryModule.application.getString(R.string.http_error_message)
-    is ProvinceNotFoundException -> LibraryModule.application.getString(R.string.http_error_message)
-    else -> LibraryModule.application.getString(R.string.http_error_message)
+fun Throwable.getExceptionMessageId() = when(this) {
+    is BadRequestNetworkException -> R.string.bad_request_message
+    is ForbiddenNetworkException -> R.string.forbidden_message
+    is NotFoundNetworkException -> R.string.not_found_message
+    is ConflictNetworkException -> R.string.conflict_message
+    is UnsupportedMediaNetworkException -> R.string.unsupported_media_type_message
+    is TooManyRequestNetworkException -> R.string.too_many_request_message
+    is NetworkServerErrorException -> R.string.internal_server_error_message
+    is NetworkServiceUnavailableException -> R.string.service_unavailable_message
+    is IOException -> R.string.internet_error_message
+    is HttpException -> R.string.http_error_message
+    is ProvinceNotFoundException -> R.string.http_error_message
+    else -> R.string.http_error_message
 }

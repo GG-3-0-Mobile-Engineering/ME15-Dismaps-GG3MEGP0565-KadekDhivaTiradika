@@ -15,7 +15,7 @@ fun DisasterType.getStringId() = when(this) {
     DisasterType.DEFAULT -> R.string.flood
 }
 
-fun String.getProvinceCode() = getProvinceList().find { it.name.equals(this, ignoreCase = true) }?.code ?: null
+fun String.getProvinceCode() = getProvinceList().find { it.name.equals(this, ignoreCase = true) }?.code
 
 private fun getProvinceList(): List<Province> = with(LibraryModule.application) {
         val provincesCode = resources.getStringArray(R.array.province_code)

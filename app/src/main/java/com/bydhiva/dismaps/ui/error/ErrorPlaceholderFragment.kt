@@ -43,7 +43,7 @@ class ErrorPlaceholderFragment : Fragment() {
         viewModel.mainUIEvent.observe(viewLifecycleOwner) {
             when (it) {
                 is MainViewModel.MainUIEvent.ErrorEvent -> {
-                    setPlaceholder(it.message, R.drawable.ph_error_screen)
+                    setPlaceholder(getString(it.messageStringId), R.drawable.ph_error_screen)
                 }
                 is MainViewModel.MainUIEvent.EmptyEvent -> {
                     setPlaceholder(resources.getString(R.string.empty_message), R.drawable.ph_empty_screen)
