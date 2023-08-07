@@ -8,18 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.databinding.FragmentHeaderDisasterDetailBinding
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.utils.toShortText
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
+@AndroidEntryPoint
 class HeaderDisasterDetailFragment : Fragment() {
     private var _binding: FragmentHeaderDisasterDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

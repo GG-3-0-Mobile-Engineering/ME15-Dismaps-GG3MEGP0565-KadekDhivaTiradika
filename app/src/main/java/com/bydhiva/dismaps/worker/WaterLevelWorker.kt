@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.bydhiva.dismaps.R
@@ -17,21 +18,23 @@ import com.bydhiva.dismaps.common.CHANNEL_ID
 import com.bydhiva.dismaps.common.CHANNEL_NAME
 import com.bydhiva.dismaps.common.NOTIFICATION_ID
 import com.bydhiva.dismaps.domain.model.DisasterType
-import com.bydhiva.dismaps.domain.usecase.DisasterUseCases
-import kotlinx.coroutines.flow.first
+import com.bydhiva.dismaps.domain.usecase.worker.WorkerUseCases
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.last
 
-class WaterLevelWorker(
-    private val context: Context,
-    private val workerParams: WorkerParameters,
+@HiltWorker
+class WaterLevelWorker @AssistedInject constructor(
+    @Assisted private val context: Context,
+    @Assisted private val workerParams: WorkerParameters,
     private val notificationManager: NotificationManager,
-    private val disasterUseCases: DisasterUseCases
+    private val workerUseCases: WorkerUseCases
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         // Should use water level api, due inconsistent api and internal server error
         // use getReports flood depth as value
-        val res = disasterUseCases.getReports(disasterType = DisasterType.FLOOD).last()
+        val res = workerUseCases.getReports(disasterType = DisasterType.FLOOD).last()
         if (res is Status.Success) {
             if (res.data?.isNotEmpty() == true) {
                 val depth = res.data.first().depth
@@ -50,10 +53,9 @@ class WaterLevelWorker(
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = CHANNEL_NAME
-            val descriptionText = text
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
+                description = text
             }
             notificationManager.createNotificationChannel(channel)
         }

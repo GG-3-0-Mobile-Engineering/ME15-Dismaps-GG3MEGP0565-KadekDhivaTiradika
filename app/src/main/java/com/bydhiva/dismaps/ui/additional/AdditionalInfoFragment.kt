@@ -5,19 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.databinding.FragmentAdditionalInfoBinding
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.domain.model.ReportsFilter
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.utils.CombinedLiveData
 import com.bydhiva.dismaps.utils.toShortText
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AdditionalInfoFragment : Fragment() {
     private var _binding: FragmentAdditionalInfoBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -6,23 +6,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.bydhiva.dismaps.base.Status
-import com.bydhiva.dismaps.common.ProvinceNotFoundException
 import com.bydhiva.dismaps.common.getExceptionMessage
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.domain.model.ReportsFilter
-import com.bydhiva.dismaps.domain.usecase.DisasterUseCases
+import com.bydhiva.dismaps.domain.usecase.disaster.DisasterUseCases
 import com.bydhiva.dismaps.utils.debounce
 import com.bydhiva.dismaps.utils.getProvinceCode
 import com.bydhiva.dismaps.utils.toStringISO
 import com.google.android.material.search.SearchView.TransitionState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.util.Date
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val disasterUseCases: DisasterUseCases?
 ): ViewModel() {
     private val _isListLoading = MutableLiveData<Boolean>()

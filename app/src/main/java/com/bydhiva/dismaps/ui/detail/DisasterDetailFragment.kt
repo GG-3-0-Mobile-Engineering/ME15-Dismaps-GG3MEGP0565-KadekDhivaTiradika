@@ -7,22 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.databinding.FragmentDisasterDetailBinding
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.utils.changeDrawable
+import com.bydhiva.dismaps.utils.getColorId
 import com.bydhiva.dismaps.utils.getDisasterIconId
 import com.bydhiva.dismaps.utils.getStringId
 import com.bydhiva.dismaps.utils.loadImage
-import com.bydhiva.dismaps.utils.getColorId
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DisasterDetailFragment : Fragment() {
 
     private var _binding: FragmentDisasterDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

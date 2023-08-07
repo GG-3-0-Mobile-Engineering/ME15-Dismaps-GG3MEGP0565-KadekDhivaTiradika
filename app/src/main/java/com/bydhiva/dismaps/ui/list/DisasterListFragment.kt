@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.common.adapter.ListDisasterAdapter
 import com.bydhiva.dismaps.databinding.FragmentDisasterListBinding
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.ui.main.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DisasterListFragment : Fragment() {
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
     private var _binding: FragmentDisasterListBinding? = null
     private val binding get() = _binding!!
     private val listDisasterAdapter = ListDisasterAdapter()

@@ -2,13 +2,12 @@ package com.bydhiva.dismaps.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.BaseApplication
-import com.bydhiva.dismaps.base.viewModelBuilder
 import com.bydhiva.dismaps.databinding.ActivityMainBinding
 import com.bydhiva.dismaps.ui.additional.AdditionalInfoFragment
 import com.bydhiva.dismaps.ui.detail.DisasterDetailFragment
@@ -22,17 +21,18 @@ import com.bydhiva.dismaps.utils.removeIfExist
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.search.SearchView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel by viewModelBuilder<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>()
     private var eventState: MainUIEvent = MainUIEvent.SuccessEvent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        (application as BaseApplication).createMainContainer()
         initBottomSheet()
         initFragment()
 
@@ -135,7 +135,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (application as BaseApplication).destroyMainContainer()
     }
 
 }

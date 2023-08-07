@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.ui.main.MainViewModel
@@ -23,12 +23,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
     private var googleMap: GoogleMap? = null
     private val latLngBounds by lazy { LatLngBounds.builder() }
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
     private var floodMarker: Bitmap? = null
     private var earthquakeMarker: Bitmap? = null
     private var fireMarker: Bitmap? = null

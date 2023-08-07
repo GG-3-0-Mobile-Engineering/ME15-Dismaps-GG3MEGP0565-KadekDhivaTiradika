@@ -2,20 +2,22 @@ package com.bydhiva.dismaps.ui.error
 
 import android.os.Bundle
 import android.transition.TransitionInflater
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.databinding.FragmentErrorPlaceholderBinding
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.utils.changeDrawable
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ErrorPlaceholderFragment : Fragment() {
     private var _binding: FragmentErrorPlaceholderBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

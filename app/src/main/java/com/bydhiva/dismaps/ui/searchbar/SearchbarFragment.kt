@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.activityViewModelBuilder
 import com.bydhiva.dismaps.common.adapter.ListSuggestionAdapter
 import com.bydhiva.dismaps.databinding.FragmentSearchbarBinding
 import com.bydhiva.dismaps.domain.model.DisasterType
@@ -17,14 +17,16 @@ import com.bydhiva.dismaps.domain.model.Province
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.ui.setting.SettingDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.Date
 
+@AndroidEntryPoint
 class SearchbarFragment : Fragment() {
 
     private var _binding: FragmentSearchbarBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModelBuilder<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
     private val listSuggestionAdapter by lazy { ListSuggestionAdapter() }
     private val datePicker by lazy {
         MaterialDatePicker.Builder

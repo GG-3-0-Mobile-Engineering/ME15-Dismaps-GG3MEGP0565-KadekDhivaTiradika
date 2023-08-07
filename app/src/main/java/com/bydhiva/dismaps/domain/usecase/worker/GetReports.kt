@@ -1,7 +1,6 @@
-package com.bydhiva.dismaps.domain.usecase
+package com.bydhiva.dismaps.domain.usecase.worker
 
 import com.bydhiva.dismaps.base.Status
-import com.bydhiva.dismaps.common.BadRequestNetworkException
 import com.bydhiva.dismaps.data.DisasterRepository
 import com.bydhiva.dismaps.domain.model.DisasterType
 import kotlinx.coroutines.flow.catch
@@ -37,6 +36,6 @@ class GetReports(
         } ?: result
         emit(Status.Success(listReport))
     }.catch {
-        t -> emit(Status.Error(t))
+            t -> emit(Status.Error(t))
     }
 }
