@@ -1,4 +1,4 @@
-package com.bydhiva.dismaps.data.datastore
+package com.bydhiva.dismaps.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -7,32 +7,35 @@ import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SettingPreferences(private val dataStore: DataStore<Preferences>){
+interface SettingRepository {
+    fun getThemeSetting(): Flow<Boolean>
+    fun getAlertSetting(): Flow<Boolean>
+    suspend fun saveThemeSetting(isDarkModeActive: Boolean)
+    suspend fun saveAlertSetting(isAlertActive: Boolean)
+}
 
+class SettingRepositoryImpl(
+    private val dataStore: DataStore<Preferences>
+) : SettingRepository {
     private val themeKey = booleanPreferencesKey("theme_setting")
     private val alertKey = booleanPreferencesKey("alert_setting")
-
-    fun getThemeSetting(): Flow<Boolean> {
-        val a = dataStore.data.map {  }
-        return dataStore.data.map { preferences ->
+    override fun getThemeSetting(): Flow<Boolean> =
+        dataStore.data.map { preferences ->
             preferences[themeKey] ?: false
         }
 
-    }
-
-    fun getAlertSetting(): Flow<Boolean> {
-        return dataStore.data.map { preferences ->
+    override fun getAlertSetting(): Flow<Boolean> =
+        dataStore.data.map { preferences ->
             preferences[alertKey] ?: false
         }
-    }
 
-    suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
+    override suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
         dataStore.edit { preferences ->
             preferences[themeKey] = isDarkModeActive
         }
     }
 
-    suspend fun saveAlertSetting(isAlertActive: Boolean) {
+    override suspend fun saveAlertSetting(isAlertActive: Boolean) {
         dataStore.edit { preferences ->
             preferences[alertKey] = isAlertActive
         }

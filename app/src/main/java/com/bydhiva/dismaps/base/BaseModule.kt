@@ -1,14 +1,22 @@
 package com.bydhiva.dismaps.base
 
-import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
-import com.bydhiva.dismaps.data.DisasterRepository
-import com.bydhiva.dismaps.data.DisasterRepositoryImpl
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.bydhiva.dismaps.data.network.ApiService
+import com.bydhiva.dismaps.data.repository.DisasterRepository
+import com.bydhiva.dismaps.data.repository.DisasterRepositoryImpl
+import com.bydhiva.dismaps.data.repository.SettingRepository
+import com.bydhiva.dismaps.data.repository.SettingRepositoryImpl
 import com.bydhiva.dismaps.domain.usecase.disaster.DisasterUseCases
 import com.bydhiva.dismaps.domain.usecase.disaster.GetReports
-import com.bydhiva.dismaps.domain.usecase.worker.GetReports as GetReportsWorker
+import com.bydhiva.dismaps.domain.usecase.setting.GetSettings
+import com.bydhiva.dismaps.domain.usecase.setting.SaveAlertSetting
+import com.bydhiva.dismaps.domain.usecase.setting.SaveThemeSetting
+import com.bydhiva.dismaps.domain.usecase.setting.SettingUseCases
 import com.bydhiva.dismaps.domain.usecase.worker.WorkerUseCases
 import dagger.Module
 import dagger.Provides
@@ -23,6 +31,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import com.bydhiva.dismaps.domain.usecase.worker.GetReports as GetReportsWorker
 
 object LibraryModule {
     @Volatile
@@ -63,6 +72,20 @@ object NetworkModule {
         .create(ApiService::class.java)
 }
 
+@InstallIn(SingletonComponent::class)
+@Module
+object DataStoreModule {
+    private const val preferencesName = "settings"
+
+    @Singleton
+    @Provides
+    fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { appContext.preferencesDataStoreFile(preferencesName) }
+        )
+    }
+}
+
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
@@ -71,17 +94,43 @@ object RepositoryModule {
     @Singleton
     fun provideDisasterRepository(apiService: ApiService): DisasterRepository =
         DisasterRepositoryImpl(apiService)
+
+    @Provides
+    @Singleton
+    fun provideSettingRepository(dataStore: DataStore<Preferences>): SettingRepository =
+        SettingRepositoryImpl(dataStore)
 }
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object UseCaseModule {
+object ViewModelUseCaseModule {
 
     @Provides
     @ViewModelScoped
     fun provideDisasterUseCases(disasterRepository: DisasterRepository): DisasterUseCases =
         DisasterUseCases(
             getReports = GetReports(disasterRepository)
+        )
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class SingletonUseCaseModule {
+
+    @Provides
+    @Singleton
+    fun provideWorkerUseCases(disasterRepository: DisasterRepository): WorkerUseCases =
+        WorkerUseCases(
+            getReports = GetReportsWorker(disasterRepository)
+        )
+
+    @Provides
+    @Singleton
+    fun provideSettingUseCases(settingRepository: SettingRepository): SettingUseCases =
+        SettingUseCases(
+            getSettings = GetSettings(settingRepository),
+            saveThemeSetting = SaveThemeSetting(settingRepository),
+            saveAlertSetting = SaveAlertSetting(settingRepository)
         )
 }
 
@@ -96,14 +145,3 @@ object NotificationModule {
     ): NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-class WorkerUseCaseModule {
-
-    @Provides
-    @Singleton
-    fun provideWorkerUseCases(disasterRepository: DisasterRepository): WorkerUseCases =
-        WorkerUseCases(
-            getReports = GetReportsWorker(disasterRepository)
-        )
-}

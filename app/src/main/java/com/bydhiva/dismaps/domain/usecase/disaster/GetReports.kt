@@ -1,7 +1,7 @@
 package com.bydhiva.dismaps.domain.usecase.disaster
 
 import com.bydhiva.dismaps.base.Status
-import com.bydhiva.dismaps.data.DisasterRepository
+import com.bydhiva.dismaps.data.repository.DisasterRepository
 import com.bydhiva.dismaps.domain.model.DisasterType
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow

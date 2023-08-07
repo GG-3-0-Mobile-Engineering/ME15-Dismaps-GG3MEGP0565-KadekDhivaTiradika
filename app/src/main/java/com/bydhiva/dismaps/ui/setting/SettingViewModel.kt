@@ -3,50 +3,39 @@ package com.bydhiva.dismaps.ui.setting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bydhiva.dismaps.data.datastore.SettingPreferences
+import com.bydhiva.dismaps.domain.model.Setting
+import com.bydhiva.dismaps.domain.usecase.setting.SettingUseCases
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingViewModel(
-    private val pref: SettingPreferences?
+@HiltViewModel
+class SettingViewModel @Inject constructor(
+    private val settingUseCases: SettingUseCases
 ) : ViewModel() {
-
-    private val _themeSetting = MutableLiveData<Boolean>()
-    val themeSetting get() = _themeSetting
-
-    private val _alertSetting = MutableLiveData<Boolean>()
-    val alertSetting get() = _alertSetting
+    private val _settings = MutableLiveData<Setting>()
+    val settings get() = _settings
 
     init {
-        getThemeSettings()
-        getAlertSetting()
+        getSettings()
     }
 
-    private fun getThemeSettings() = viewModelScope.launch {
-        if (pref == null) return@launch
-        pref.getThemeSetting().collectLatest {
-            _themeSetting.postValue(it)
+    private fun getSettings() = viewModelScope.launch {
+        settingUseCases.getSettings().collectLatest {
+            _settings.postValue(it)
         }
     }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
-        if (pref == null) return
         viewModelScope.launch {
-            pref.saveThemeSetting(isDarkModeActive)
-        }
-    }
-
-    private fun getAlertSetting() = viewModelScope.launch {
-        if (pref == null) return@launch
-        pref.getAlertSetting().collectLatest {
-            _alertSetting.postValue(it)
+            settingUseCases.saveThemeSetting(isDarkModeActive)
         }
     }
 
     fun saveAlertSetting(isAlertActive: Boolean) {
-        if (pref == null) return
         viewModelScope.launch {
-            pref.saveAlertSetting(isAlertActive)
+            settingUseCases.saveAlertSetting(isAlertActive)
         }
     }
 

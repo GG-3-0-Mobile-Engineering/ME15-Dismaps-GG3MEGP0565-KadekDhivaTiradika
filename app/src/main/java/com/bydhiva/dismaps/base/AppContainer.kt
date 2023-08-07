@@ -2,8 +2,8 @@ package com.bydhiva.dismaps.base
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.bydhiva.dismaps.data.DisasterRepository
 import com.bydhiva.dismaps.data.datastore.SettingPreferences
+import com.bydhiva.dismaps.data.repository.DisasterRepository
 import com.bydhiva.dismaps.domain.usecase.disaster.DisasterUseCases
 import com.bydhiva.dismaps.domain.usecase.disaster.GetReports
 

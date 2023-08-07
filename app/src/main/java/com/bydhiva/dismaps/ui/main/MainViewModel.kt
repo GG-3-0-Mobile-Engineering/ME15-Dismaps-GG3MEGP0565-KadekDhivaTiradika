@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val disasterUseCases: DisasterUseCases?
+    private val disasterUseCases: DisasterUseCases
 ): ViewModel() {
     private val _isListLoading = MutableLiveData<Boolean>()
     val isListLoading: LiveData<Boolean> get() = _isListLoading
@@ -52,7 +52,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun getReports() = viewModelScope.launch {
-        if (disasterUseCases == null) return@launch
         val provinceCode = _searchText.value.getProvinceCode()
         disasterUseCases.getReports(
             provinceCode = provinceCode,

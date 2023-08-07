@@ -1,4 +1,4 @@
-package com.bydhiva.dismaps.data
+package com.bydhiva.dismaps.data.repository
 
 import com.bydhiva.dismaps.common.getExceptionByCode
 import com.bydhiva.dismaps.common.requestSuccessCode
