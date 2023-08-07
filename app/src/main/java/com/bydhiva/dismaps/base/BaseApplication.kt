@@ -17,7 +17,6 @@ class BaseApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-        LibraryModule.initializeDI(this)
         runBlocking {
             settingUseCases.getSettings().first().isDarkModeActive.let {
                 AppCompatDelegate.setDefaultNightMode(

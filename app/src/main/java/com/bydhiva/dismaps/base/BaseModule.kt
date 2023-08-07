@@ -33,20 +33,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.bydhiva.dismaps.domain.usecase.worker.GetReports as GetReportsWorker
 
-object LibraryModule {
-    @Volatile
-    lateinit var application: BaseApplication
-
-    fun initializeDI(baseApplication: BaseApplication) {
-        if (!::application.isInitialized) {
-            synchronized(this) {
-                this.application = baseApplication
-            }
-        }
-    }
-
-}
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

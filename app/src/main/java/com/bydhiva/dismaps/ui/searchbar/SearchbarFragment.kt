@@ -16,6 +16,7 @@ import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.domain.model.Province
 import com.bydhiva.dismaps.ui.main.MainViewModel
 import com.bydhiva.dismaps.ui.setting.SettingDialogFragment
+import com.bydhiva.dismaps.utils.StringArray
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
@@ -139,12 +140,8 @@ class SearchbarFragment : Fragment() {
         viewModel.getReports()
     }
 
-    private fun getProvinceList(): List<Province> {
-        val provincesCode = resources.getStringArray(R.array.province_code)
-        return resources.getStringArray(R.array.province_name).mapIndexed { index, s ->
-            Province(s, provincesCode[index])
-        }.toList().sortedBy { it.name }
-    }
+    private fun getProvinceList(): List<Province> =
+        StringArray.provinceList.sortedBy { it.name }
 
     override fun onDestroyView() {
         super.onDestroyView()
