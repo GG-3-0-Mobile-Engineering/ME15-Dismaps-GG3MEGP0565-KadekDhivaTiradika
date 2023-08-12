@@ -13,12 +13,12 @@ import com.bydhiva.dismaps.data.repository.SettingRepository
 import com.bydhiva.dismaps.data.repository.SettingRepositoryImpl
 import com.bydhiva.dismaps.domain.usecase.disaster.GetReportsUseCase
 import com.bydhiva.dismaps.domain.usecase.disaster.GetReportsUseCaseImpl
+import com.bydhiva.dismaps.domain.usecase.disaster.GetWaterLevelUseCase
+import com.bydhiva.dismaps.domain.usecase.disaster.GetWaterLevelUseCaseImpl
 import com.bydhiva.dismaps.domain.usecase.setting.GetSettingsUseCase
 import com.bydhiva.dismaps.domain.usecase.setting.GetSettingsUseCaseImpl
 import com.bydhiva.dismaps.domain.usecase.setting.SaveSettingUseCase
 import com.bydhiva.dismaps.domain.usecase.setting.SaveSettingUseCaseImpl
-import com.bydhiva.dismaps.domain.usecase.worker.GetReports
-import com.bydhiva.dismaps.domain.usecase.worker.WorkerUseCases
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -109,6 +109,11 @@ abstract class SingletonScopedUseCaseModule {
     abstract fun bindSaveSettingUseCase(
         saveSettingUseCaseImpl: SaveSettingUseCaseImpl
     ): SaveSettingUseCase
+
+    @Binds
+    abstract fun bindGetWaterLevelModule(
+        getWaterLevelUseCaseImpl: GetWaterLevelUseCaseImpl
+    ): GetWaterLevelUseCase
 }
 
 @Module
@@ -121,15 +126,3 @@ object NotificationModule {
         @ApplicationContext context: Context
     ): NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 }
-
-@Module
-@InstallIn(SingletonComponent::class)
-object WorkerModule {
-    @Provides
-    @Singleton
-    fun provideWorkerUseCases(disasterRepository: DisasterRepository): WorkerUseCases =
-        WorkerUseCases(
-            getReports = GetReports(disasterRepository)
-        )
-}
-
