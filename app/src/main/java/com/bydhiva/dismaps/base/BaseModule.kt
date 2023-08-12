@@ -11,19 +11,20 @@ import com.bydhiva.dismaps.data.repository.DisasterRepository
 import com.bydhiva.dismaps.data.repository.DisasterRepositoryImpl
 import com.bydhiva.dismaps.data.repository.SettingRepository
 import com.bydhiva.dismaps.data.repository.SettingRepositoryImpl
-import com.bydhiva.dismaps.domain.usecase.disaster.DisasterUseCases
-import com.bydhiva.dismaps.domain.usecase.disaster.GetReports
-import com.bydhiva.dismaps.domain.usecase.setting.GetSettings
-import com.bydhiva.dismaps.domain.usecase.setting.SaveAlertSetting
-import com.bydhiva.dismaps.domain.usecase.setting.SaveThemeSetting
-import com.bydhiva.dismaps.domain.usecase.setting.SettingUseCases
+import com.bydhiva.dismaps.domain.usecase.disaster.GetReportsUseCase
+import com.bydhiva.dismaps.domain.usecase.disaster.GetReportsUseCaseImpl
+import com.bydhiva.dismaps.domain.usecase.setting.GetSettingsUseCase
+import com.bydhiva.dismaps.domain.usecase.setting.GetSettingsUseCaseImpl
+import com.bydhiva.dismaps.domain.usecase.setting.SaveSettingUseCase
+import com.bydhiva.dismaps.domain.usecase.setting.SaveSettingUseCaseImpl
+import com.bydhiva.dismaps.domain.usecase.worker.GetReports
 import com.bydhiva.dismaps.domain.usecase.worker.WorkerUseCases
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,7 +32,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import com.bydhiva.dismaps.domain.usecase.worker.GetReports as GetReportsWorker
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -74,50 +74,41 @@ object DataStoreModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
-    @Singleton
-    fun provideDisasterRepository(apiService: ApiService): DisasterRepository =
-        DisasterRepositoryImpl(apiService)
+    @Binds
+    abstract fun bindsDisasterRepository(
+        disasterRepositoryImpl: DisasterRepositoryImpl
+    ): DisasterRepository
 
-    @Provides
-    @Singleton
-    fun provideSettingRepository(dataStore: DataStore<Preferences>): SettingRepository =
-        SettingRepositoryImpl(dataStore)
+    @Binds
+    abstract fun bindsSettingRepository(
+        settingRepositoryImpl: SettingRepositoryImpl
+    ): SettingRepository
 }
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object ViewModelUseCaseModule {
+abstract class ViewModelScopedUseCaseModule {
 
-    @Provides
-    @ViewModelScoped
-    fun provideDisasterUseCases(disasterRepository: DisasterRepository): DisasterUseCases =
-        DisasterUseCases(
-            getReports = GetReports(disasterRepository)
-        )
+    @Binds
+    abstract fun bindsGetReportsUseCase(
+        getReportsUseCaseImpl: GetReportsUseCaseImpl
+    ): GetReportsUseCase
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
-class SingletonUseCaseModule {
+abstract class SingletonScopedUseCaseModule {
+    @Binds
+    abstract fun bindGetSettingsUseCase(
+        getSettingsUseCaseImpl: GetSettingsUseCaseImpl
+    ): GetSettingsUseCase
 
-    @Provides
-    @Singleton
-    fun provideWorkerUseCases(disasterRepository: DisasterRepository): WorkerUseCases =
-        WorkerUseCases(
-            getReports = GetReportsWorker(disasterRepository)
-        )
-
-    @Provides
-    @Singleton
-    fun provideSettingUseCases(settingRepository: SettingRepository): SettingUseCases =
-        SettingUseCases(
-            getSettings = GetSettings(settingRepository),
-            saveThemeSetting = SaveThemeSetting(settingRepository),
-            saveAlertSetting = SaveAlertSetting(settingRepository)
-        )
+    @Binds
+    abstract fun bindSaveSettingUseCase(
+        saveSettingUseCaseImpl: SaveSettingUseCaseImpl
+    ): SaveSettingUseCase
 }
 
 @Module
@@ -129,5 +120,16 @@ object NotificationModule {
     fun provideNotificationManager(
         @ApplicationContext context: Context
     ): NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object WorkerModule {
+    @Provides
+    @Singleton
+    fun provideWorkerUseCases(disasterRepository: DisasterRepository): WorkerUseCases =
+        WorkerUseCases(
+            getReports = GetReports(disasterRepository)
+        )
 }
 

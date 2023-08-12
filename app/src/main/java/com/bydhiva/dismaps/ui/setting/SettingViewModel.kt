@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bydhiva.dismaps.domain.model.Setting
-import com.bydhiva.dismaps.domain.usecase.setting.SettingUseCases
+import com.bydhiva.dismaps.domain.model.SettingType
+import com.bydhiva.dismaps.domain.usecase.setting.GetSettingsUseCase
+import com.bydhiva.dismaps.domain.usecase.setting.SaveSettingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val settingUseCases: SettingUseCases
+    private val getSettingsUseCase: GetSettingsUseCase,
+    private val saveSettingUseCase: SaveSettingUseCase
 ) : ViewModel() {
     private val _settings = MutableLiveData<Setting>()
     val settings get() = _settings
@@ -22,20 +25,20 @@ class SettingViewModel @Inject constructor(
     }
 
     private fun getSettings() = viewModelScope.launch {
-        settingUseCases.getSettings().collectLatest {
+        getSettingsUseCase().collectLatest {
             _settings.postValue(it)
         }
     }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
-            settingUseCases.saveThemeSetting(isDarkModeActive)
+            saveSettingUseCase.saveBoolean(SettingType.DARK_MODE, isDarkModeActive)
         }
     }
 
     fun saveAlertSetting(isAlertActive: Boolean) {
         viewModelScope.launch {
-            settingUseCases.saveAlertSetting(isAlertActive)
+            saveSettingUseCase.saveBoolean(SettingType.WATER_LEVEL_ALERT, isAlertActive)
         }
     }
 

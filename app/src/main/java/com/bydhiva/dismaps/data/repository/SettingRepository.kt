@@ -6,39 +6,24 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 interface SettingRepository {
-    fun getThemeSetting(): Flow<Boolean>
-    fun getAlertSetting(): Flow<Boolean>
-    suspend fun saveThemeSetting(isDarkModeActive: Boolean)
-    suspend fun saveAlertSetting(isAlertActive: Boolean)
+    fun getBoolean(key: String): Flow<Boolean>
+    suspend fun saveBoolean(key: String, value: Boolean)
 }
 
-class SettingRepositoryImpl(
+class SettingRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : SettingRepository {
-    private val themeKey = booleanPreferencesKey("theme_setting")
-    private val alertKey = booleanPreferencesKey("alert_setting")
-    override fun getThemeSetting(): Flow<Boolean> =
+    override fun getBoolean(key: String): Flow<Boolean> =
         dataStore.data.map { preferences ->
-            preferences[themeKey] ?: false
+            preferences[booleanPreferencesKey(key)] ?: false
         }
 
-    override fun getAlertSetting(): Flow<Boolean> =
-        dataStore.data.map { preferences ->
-            preferences[alertKey] ?: false
-        }
-
-    override suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
+    override suspend fun saveBoolean(key: String, value: Boolean) {
         dataStore.edit { preferences ->
-            preferences[themeKey] = isDarkModeActive
+            preferences[booleanPreferencesKey(key)] = value
         }
     }
-
-    override suspend fun saveAlertSetting(isAlertActive: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[alertKey] = isAlertActive
-        }
-    }
-
 }

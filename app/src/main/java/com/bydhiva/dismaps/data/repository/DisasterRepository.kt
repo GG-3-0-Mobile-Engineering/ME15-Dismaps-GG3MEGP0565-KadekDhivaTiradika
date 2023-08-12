@@ -5,6 +5,7 @@ import com.bydhiva.dismaps.common.requestSuccessCode
 import com.bydhiva.dismaps.common.toDisaster
 import com.bydhiva.dismaps.data.network.ApiService
 import com.bydhiva.dismaps.domain.model.Disaster
+import javax.inject.Inject
 
 interface DisasterRepository {
     suspend fun getReports(
@@ -20,7 +21,7 @@ interface DisasterRepository {
     ) : List<Disaster>
 }
 
-class DisasterRepositoryImpl(
+class DisasterRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ): DisasterRepository {
 
