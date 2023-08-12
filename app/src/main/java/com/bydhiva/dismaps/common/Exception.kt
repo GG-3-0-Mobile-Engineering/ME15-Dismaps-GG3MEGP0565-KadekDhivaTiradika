@@ -38,6 +38,6 @@ fun Throwable.getExceptionMessageId() = when(this) {
     is NetworkServiceUnavailableException -> R.string.service_unavailable_message
     is IOException -> R.string.internet_error_message
     is HttpException -> R.string.http_error_message
-    is ProvinceNotFoundException -> R.string.http_error_message
+    is ProvinceNotFoundException -> R.string.province_not_found
     else -> R.string.http_error_message
 }
