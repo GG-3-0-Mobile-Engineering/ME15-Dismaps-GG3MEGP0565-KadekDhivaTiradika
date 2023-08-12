@@ -10,10 +10,8 @@ import com.bydhiva.dismaps.common.getExceptionMessageId
 import com.bydhiva.dismaps.domain.model.Disaster
 import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.domain.model.ReportsFilter
-import com.bydhiva.dismaps.domain.usecase.disaster.DisasterUseCases
+import com.bydhiva.dismaps.domain.usecase.disaster.GetReportsUseCase
 import com.bydhiva.dismaps.utils.debounce
-import com.bydhiva.dismaps.utils.getProvinceCode
-import com.bydhiva.dismaps.utils.toStringISO
 import com.google.android.material.search.SearchView.TransitionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val disasterUseCases: DisasterUseCases
+    private val getReportsUseCase: GetReportsUseCase
 ): ViewModel() {
     private val _isListLoading = MutableLiveData<Boolean>()
     val isListLoading: LiveData<Boolean> get() = _isListLoading
@@ -52,7 +50,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun getReports() = viewModelScope.launch {
-        disasterUseCases.getReports(
+        getReportsUseCase(
             searchQuery = _searchText.value,
             disasterType = _reportsFilter.value.disasterType,
             startEndDate = _reportsFilter.value.startEndDate

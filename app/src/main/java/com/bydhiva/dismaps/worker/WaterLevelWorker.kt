@@ -13,36 +13,29 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.bydhiva.dismaps.R
-import com.bydhiva.dismaps.base.Status
 import com.bydhiva.dismaps.common.CHANNEL_ID
 import com.bydhiva.dismaps.common.CHANNEL_NAME
 import com.bydhiva.dismaps.common.NOTIFICATION_ID
-import com.bydhiva.dismaps.domain.model.DisasterType
-import com.bydhiva.dismaps.domain.usecase.worker.WorkerUseCases
+import com.bydhiva.dismaps.domain.usecase.disaster.GetWaterLevelUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.last
 
 @HiltWorker
 class WaterLevelWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParams: WorkerParameters,
     private val notificationManager: NotificationManager,
-    private val workerUseCases: WorkerUseCases
+    private val getWaterLevelUseCase: GetWaterLevelUseCase
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        // Should use water level api, due inconsistent api and internal server error
-        // use getReports flood depth as value
-        val res = workerUseCases.getReports(disasterType = DisasterType.FLOOD).last()
-        if (res is Status.Success) {
-            if (res.data?.isNotEmpty() == true) {
-                val depth = res.data.first().depth
-                showNotification("Water level depth: $depth")
-            }
-            return Result.success()
+        return try {
+            val depth = getWaterLevelUseCase()
+            showNotification(context.getString(R.string.water_level_depth, depth))
+            Result.success()
+        } catch (e: Exception) {
+            Result.failure()
         }
-        return Result.failure()
     }
 
     private fun showNotification(text: String) {
