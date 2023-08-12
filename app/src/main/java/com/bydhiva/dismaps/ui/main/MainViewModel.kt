@@ -52,12 +52,10 @@ class MainViewModel @Inject constructor(
     }
 
     fun getReports() = viewModelScope.launch {
-        val provinceCode = _searchText.value.getProvinceCode()
         disasterUseCases.getReports(
-            provinceCode = provinceCode,
+            searchQuery = _searchText.value,
             disasterType = _reportsFilter.value.disasterType,
-            start = _reportsFilter.value.startEndDate?.first?.toStringISO(),
-            end = _reportsFilter.value.startEndDate?.second?.toStringISO()
+            startEndDate = _reportsFilter.value.startEndDate
         ).collectLatest { result ->
             when(result) {
                 is Status.Loading -> _isListLoading.postValue(true)

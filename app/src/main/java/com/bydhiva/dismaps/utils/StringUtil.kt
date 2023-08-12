@@ -4,7 +4,7 @@ import com.bydhiva.dismaps.R
 import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.domain.model.Province
 
-fun DisasterType.getStringId() = when(this) {
+fun DisasterType.getStringId(): Int = when(this) {
     DisasterType.FLOOD -> R.string.flood
     DisasterType.EARTHQUAKE -> R.string.earthquake
     DisasterType.FIRE -> R.string.fire
@@ -14,7 +14,8 @@ fun DisasterType.getStringId() = when(this) {
     DisasterType.DEFAULT -> R.string.flood
 }
 
-fun String.getProvinceCode() = getProvinceList().find { it.name.equals(this, ignoreCase = true) }?.code
+fun String.getProvinceCode(): String? =
+    getProvinceList().find { it.name.equals(this, ignoreCase = true) }?.code
 
 private fun getProvinceList(): List<Province> =
     StringArray.provinceList.sortedBy { it.name }
