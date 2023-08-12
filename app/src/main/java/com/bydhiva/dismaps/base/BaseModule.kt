@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.work.WorkManager
 import com.bydhiva.dismaps.data.network.ApiService
 import com.bydhiva.dismaps.data.repository.DisasterRepository
 import com.bydhiva.dismaps.data.repository.DisasterRepositoryImpl
@@ -125,4 +126,14 @@ object NotificationModule {
     fun provideNotificationManager(
         @ApplicationContext context: Context
     ): NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object WorkManagerModule {
+    @Provides
+    @Singleton
+    fun provideWorkManager(
+        @ApplicationContext context: Context
+    ): WorkManager = WorkManager.getInstance(context)
 }
