@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.bydhiva.dismaps.R
 import com.bydhiva.dismaps.databinding.FragmentSettingDialogBinding
 import com.bydhiva.dismaps.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,7 +82,7 @@ class SettingDialogFragment : DialogFragment() {
 
     private fun requestPermissionResult(isGranted: Boolean) {
         if (!isGranted) {
-            toast("Cannot send alert due to permission!")
+            toast(getString(R.string.no_notif_permission))
             viewModel.saveAlertSetting(false)
         } else {
             viewModel.saveAlertSetting(true)

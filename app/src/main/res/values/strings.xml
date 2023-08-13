@@ -38,4 +38,5 @@
     <string name="disaster_message">There have been %1$d disasters %2$s. Stay safe!</string>
     <string name="back">back</string>
     <string name="water_level_depth">Water level depth: %1$s</string>
+    <string name="no_notif_permission">Cannot send alert due to permission!</string>
 </resources>
