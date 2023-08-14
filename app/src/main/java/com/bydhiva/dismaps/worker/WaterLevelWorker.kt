@@ -13,12 +13,14 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.bydhiva.dismaps.R
+import com.bydhiva.dismaps.base.Status
 import com.bydhiva.dismaps.common.CHANNEL_ID
 import com.bydhiva.dismaps.common.CHANNEL_NAME
 import com.bydhiva.dismaps.common.NOTIFICATION_ID
 import com.bydhiva.dismaps.domain.usecase.disaster.GetWaterLevelUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.last
 
 @HiltWorker
 class WaterLevelWorker @AssistedInject constructor(
@@ -29,12 +31,16 @@ class WaterLevelWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        return try {
-            val depth = getWaterLevelUseCase()
-            showNotification(context.getString(R.string.water_level_depth, depth))
-            Result.success()
-        } catch (e: Exception) {
-            Result.failure()
+        getWaterLevelUseCase().last().let { result ->
+            return if (result is Status.Success) {
+                result.data?.let {
+                    showNotification(context.getString(R.string.water_level_depth, it))
+                    Result.success()
+                }
+                Result.success()
+            } else {
+                Result.failure()
+            }
         }
     }
 
