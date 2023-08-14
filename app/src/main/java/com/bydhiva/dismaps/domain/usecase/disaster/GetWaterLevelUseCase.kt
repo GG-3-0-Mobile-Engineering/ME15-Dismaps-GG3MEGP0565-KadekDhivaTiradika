@@ -4,11 +4,12 @@ import com.bydhiva.dismaps.base.Status
 import com.bydhiva.dismaps.data.repository.DisasterRepository
 import com.bydhiva.dismaps.domain.model.DisasterType
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface GetWaterLevelUseCase {
-    suspend operator fun invoke(): Flow<Status<String?>>
+    suspend operator fun invoke(): Flow<Status<String>>
 }
 
 class GetWaterLevelUseCaseImpl @Inject constructor(
@@ -17,20 +18,18 @@ class GetWaterLevelUseCaseImpl @Inject constructor(
 
     // Should use water level api, due inconsistent api and internal server error
     // use getReports flood depth as value
-    override suspend fun invoke(): Flow<Status<String?>> = flow {
-        try {
-            emit(Status.Loading())
-            val reports = disasterRepository.getReports(
-                disaster = DisasterType.FLOOD.toString().lowercase(),
-            )
-            var result: String? = null
+    override suspend fun invoke(): Flow<Status<String>> = flow {
+        emit(Status.Loading())
+        val reports = disasterRepository.getReports(
+            disaster = DisasterType.FLOOD.toString().lowercase(),
+        )
+        var result = ""
 
-            if (reports.isNotEmpty()) {
-                result = reports.first().depth.toString()
-            }
-            emit(Status.Success(result))
-        } catch (t: Throwable) {
-            emit(Status.Error(t))
+        if (reports.isNotEmpty()) {
+            result = reports.first().depth.toString()
         }
+        emit(Status.Success(result))
+    }.catch {
+        t-> emit(Status.Error(t))
     }
 }
