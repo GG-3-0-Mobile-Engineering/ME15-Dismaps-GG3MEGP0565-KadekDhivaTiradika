@@ -14,5 +14,6 @@ data class Disaster(
     val title: String,
     val text: String,
     val latLng: LatLng,
-    val depth: Int?
+    val depth: Int?,
+    val provinceCode: String
 )

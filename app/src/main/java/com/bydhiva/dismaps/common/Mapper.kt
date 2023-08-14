@@ -17,7 +17,8 @@ fun GeometriesItem.toDisaster(): Disaster = Disaster(
     title = this.properties?.title ?: "",
     text = this.properties?.text ?: "",
     latLng = LatLng( this.coordinates?.last() ?: 0.0, this.coordinates?.first() ?: 0.0),
-    depth = this.properties?.reportData?.depth
+    depth = this.properties?.reportData?.depth,
+    provinceCode = this.properties?.tags?.instanceRegionCode ?: ""
 )
 
 internal fun String.toEnum() = when(this) {

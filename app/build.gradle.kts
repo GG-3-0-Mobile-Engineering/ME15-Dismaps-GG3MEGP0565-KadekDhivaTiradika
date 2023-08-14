@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.work.manager)
     implementation(libs.dagger.hilt)
     implementation(libs.androidx.hilt)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     kapt(libs.dagger.hilt.compiler)
     kapt(libs.androidx.hilt.compiler)
     testImplementation(libs.junit)
