@@ -77,6 +77,9 @@ class SettingDialogFragment : DialogFragment() {
                  viewModel.saveAlertSetting(true)
                  viewModel.setWaterLevelWorker()
              }
+         } else {
+             viewModel.saveAlertSetting(true)
+             viewModel.setWaterLevelWorker()
          }
     }
 
