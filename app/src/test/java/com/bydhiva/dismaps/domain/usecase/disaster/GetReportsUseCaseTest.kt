@@ -6,6 +6,7 @@ import com.bydhiva.dismaps.data.repository.DisasterRepository
 import com.bydhiva.dismaps.domain.model.DisasterType
 import com.bydhiva.dismaps.dummy.DummyProvinces
 import com.bydhiva.dismaps.fake.FakeDisasterRepository
+import com.bydhiva.dismaps.testutils.parseDate
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
@@ -15,11 +16,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import java.io.IOException
-import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
-import java.util.Date
-import java.util.Locale
 
 class GetReportsUseCaseTest {
     private lateinit var disasterRepository: DisasterRepository
@@ -310,11 +308,6 @@ class GetReportsUseCaseTest {
             assert(lastEmit.error is Throwable)
 
         }
-
-    private fun String.parseDate(): Date {
-        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        return formatter.parse(this) ?: Date()
-    }
 }
 
 
