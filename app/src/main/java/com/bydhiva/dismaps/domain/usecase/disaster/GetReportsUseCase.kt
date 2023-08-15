@@ -16,7 +16,7 @@ import javax.inject.Inject
 interface GetReportsUseCase {
     operator fun invoke(
         startEndDate: Pair<Date, Date>? = null,
-        searchQuery: String,
+        searchQuery: String = "",
         disasterType: DisasterType? = null
     ): Flow<Status<List<Disaster>>>
 }
